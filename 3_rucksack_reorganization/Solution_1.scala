@@ -7,7 +7,7 @@ object Solution_1 {
 
     for (line <- input.getLines()) {
       val packs = line.splitAt(line.length / 2)
-      val shared = (packs._1.distinct intersect packs._2.distinct).charAt(0).toInt
+      val shared = (packs._1 intersect packs._2).charAt(0).toInt
 
       if (shared > 90)
         priority += shared - 96
