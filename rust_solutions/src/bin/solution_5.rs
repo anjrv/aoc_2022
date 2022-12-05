@@ -1,8 +1,6 @@
 use anyhow::Result;
-use std::time::Instant;
 
 fn main() -> Result<()> {
-    let start = Instant::now();
     let mut input: Vec<Vec<String>> = std::fs::read_to_string("input5.txt")?
         .split("\n\n")
         .map(|chunk| {
@@ -42,9 +40,6 @@ fn main() -> Result<()> {
         "{:?}",
         cargo.iter().map(|c| c.last().unwrap()).collect::<String>()
     );
-
-    let duration = start.elapsed();
-    println!("Time elapsed in expensive_function() is: {:?}", duration);
 
     Ok(())
 }
