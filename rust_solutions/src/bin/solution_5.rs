@@ -1,6 +1,8 @@
 use anyhow::Result;
+use std::time::Instant;
 
 fn main() -> Result<()> {
+    let start = Instant::now();
     let mut input: Vec<Vec<String>> = std::fs::read_to_string("input5.txt")?
         .split("\n\n")
         .map(|chunk| {
@@ -12,15 +14,11 @@ fn main() -> Result<()> {
         })
         .collect();
 
-    // Get rid of index row and empty line
-    input[0].pop();
-    input[1].pop();
-
     let stacks = input[0][0].chars().count() / 4 + 1;
     let mut cargo: Vec<Vec<char>> = Vec::with_capacity(stacks);
     cargo.resize(stacks, Vec::with_capacity(stacks * stacks));
 
-    for line in input[0].iter() {
+    for line in input[0].iter().rev().skip(1) {
         for (i, c) in line.chars().skip(1).enumerate().step_by(4) {
             if c != ' ' {
                 cargo[i / 4].push(c);
@@ -28,20 +26,25 @@ fn main() -> Result<()> {
         }
     }
 
+    input[1].pop();
+
     for line in input[1].iter() {
         let mov: Vec<&str> = line.split(' ').collect();
-        let crates: Vec<char> = cargo[mov[3].parse::<usize>()? - 1]
-            .drain(..mov[1].parse::<usize>()?)
-            .collect();
+        let n = mov[1].parse::<usize>()?;
+        let idx = mov[3].parse::<usize>()? - 1;
+        let len = cargo[idx].len();
 
-        // Splice is expensive, might be worth doing in reverse or using u8
-        cargo[mov[5].parse::<usize>()? - 1].splice(0..0, crates.iter().cloned());
+        let mut crates: Vec<char> = cargo[idx].drain(len - n..len).collect();
+        cargo[mov[5].parse::<usize>()? - 1].append(&mut crates);
     }
 
     println!(
         "{:?}",
-        cargo.iter().map(|c| c.first().unwrap()).collect::<String>()
+        cargo.iter().map(|c| c.last().unwrap()).collect::<String>()
     );
+
+    let duration = start.elapsed();
+    println!("Time elapsed in expensive_function() is: {:?}", duration);
 
     Ok(())
 }
