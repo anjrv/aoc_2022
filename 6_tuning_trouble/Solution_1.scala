@@ -3,7 +3,8 @@ import scala.io.Source
 object Solution_1 {
   def main(args: Array[String]): Unit = {
     val input = Source.fromFile("input.txt").mkString;
-    val numDistinct = 4
+    // Part 1: val numDistinct = 4
+    val numDistinct = 14
 
     var chars = input.substring(0, numDistinct).toCharArray()
 
