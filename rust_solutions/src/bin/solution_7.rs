@@ -65,7 +65,7 @@ fn main() -> Result<()> {
     // directories.retain(|_, v| *v <= 100000);
     // println!("{:?}", directories.values().sum::<i32>());
 
-    let total_size = directories.get("/").unwrap().to_owned();
+    let total_size = *directories.get("/").unwrap();
     directories.retain(|_, v| *v >= REQUIRED_SPACE - (TOTAL_SPACE - total_size));
 
     println!(
