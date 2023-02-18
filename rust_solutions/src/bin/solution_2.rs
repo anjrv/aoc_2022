@@ -3,8 +3,8 @@ use std::collections::HashMap;
 fn resolve(line: &str, points: &HashMap<&str, i32>) -> i32 {
     let mut sum = 0;
 
-    match line.split_once(' ') {
-        Some(pair) => match pair.1 {
+    if let Some(pair) = line.split_once(' ') {
+        match pair.1 {
             "X" => {
                 let opp = points.get(pair.0).unwrap();
                 sum += if *opp == 1 { 3 } else { opp - 1 };
@@ -16,8 +16,7 @@ fn resolve(line: &str, points: &HashMap<&str, i32>) -> i32 {
                 let opp = points.get(pair.0).unwrap();
                 sum += 6 + if *opp == 3 { 1 } else { opp + 1 };
             }
-        },
-        None => {}
+        }
     }
 
     sum

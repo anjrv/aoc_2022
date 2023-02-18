@@ -15,7 +15,7 @@ object Solution_1 {
     var b = 0
 
     for (line <- input.getLines()) {
-      val c = toInt(line);
+            val c = toInt(line);
 
       if (c > 0)
         b += c
